@@ -2,6 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using backend_herhaling_sneakers.Configuration;
+using backend_herhaling_sneakers.Data;
+using backend_herhaling_sneakers.Repositories;
+using backend_herhaling_sneakers.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -26,6 +30,14 @@ namespace backend_herhaling_sneakers
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            services.Configure<ConnectionStrings>(Configuration.GetSection("ConnectionStrings"));
+            services.AddDbContext<SneakerContext>();
+
+            services.AddTransient<ISneakerContext, SneakerContext>();
+            services.AddTransient<IBrandRepository, BrandRepository>();
+            services.AddTransient<ISneakerService, SneakerService>();
+
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
