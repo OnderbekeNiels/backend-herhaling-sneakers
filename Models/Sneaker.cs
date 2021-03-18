@@ -11,8 +11,9 @@ namespace backend_herhaling_sneakers.Models
         public string Name { get; set; }
         [Required]
         public float Price { get; set; }
+        public List<Image> Images { get; set; }
         public Guid BrandId { get; set; }
-        public ICollection<Occasion> Occasions { get; set; }
+        public ICollection<SneakerOccasion> SneakerOccasions { get; set; }
         //public List<Image> Images { get; set; }
     }
 }

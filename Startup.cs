@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Azure.Storage.Blobs;
 using backend_herhaling_sneakers.Configuration;
 using backend_herhaling_sneakers.Data;
 using backend_herhaling_sneakers.Repositories;
@@ -36,10 +37,20 @@ namespace backend_herhaling_sneakers
 
             services.AddTransient<ISneakerContext, SneakerContext>();
             services.AddTransient<IBrandRepository, BrandRepository>();
+            services.AddTransient<IOccasionRepository, OccasionRepository>();
+            services.AddTransient<ISneakerRepository, SneakerRepository>();
             services.AddTransient<ISneakerService, SneakerService>();
+            services.AddTransient<IBlobStrorageService, BlobStrorageService>();
+            
 
 
             services.AddControllers();
+
+            services.AddScoped(_ =>
+            {
+                return new BlobServiceClient(Configuration.GetConnectionString("AzureBlobStorage"));
+            });
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "backend_herhaling_sneakers", Version = "v1" });

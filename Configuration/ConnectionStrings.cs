@@ -5,5 +5,6 @@ namespace backend_herhaling_sneakers.Configuration
     public class ConnectionStrings
     {
         public string SQL { get; set; }
+        public string AzureBlobStorage { get; set; }
     }
 }

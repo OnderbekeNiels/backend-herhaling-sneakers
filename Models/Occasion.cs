@@ -9,6 +9,6 @@ namespace backend_herhaling_sneakers.Models
         public Guid OccasionId { get; set; }
         [Required]
         public string Name { get; set; }
-        public ICollection<Sneaker> Sneakers { get; set; }
+        public ICollection<SneakerOccasion> SneakerOccasions { get; set; }
     }
 }

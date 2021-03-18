@@ -10,8 +10,6 @@ namespace backend_herhaling_sneakers.Models
         public Guid ImageId { get; set; }
         [Required]
         public string Name { get; set; }
-        // public Blob ImageFile { get; set; }
-
         public Guid SneakerId { get; set; }
     }
 }

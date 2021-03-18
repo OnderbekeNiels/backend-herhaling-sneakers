@@ -23,6 +23,7 @@ namespace backend_herhaling_sneakers.Data
         public DbSet<Sneaker> Sneakers { get; set; }
         public DbSet<Brand> Brands { get; set; }
         public DbSet<Occasion> Occasions { get; set; }
+        public DbSet<SneakerOccasion> SneakerOccasions { get; set; }
         public DbSet<Image> Images { get; set; }
 
         private ConnectionStrings _connectionStrings;
@@ -39,6 +40,10 @@ namespace backend_herhaling_sneakers.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
+            modelBuilder.Entity<SneakerOccasion>()
+                               .HasKey(cs => new { cs.SneakerId, cs.OccasionId });
+
             modelBuilder.Entity<Brand>().HasData(new Brand() { BrandId = Guid.NewGuid(), Name = "ASICS" });
             modelBuilder.Entity<Brand>().HasData(new Brand() { BrandId = Guid.NewGuid(), Name = "CONVERSE" });
             modelBuilder.Entity<Brand>().HasData(new Brand() { BrandId = Guid.NewGuid(), Name = "VANS" });

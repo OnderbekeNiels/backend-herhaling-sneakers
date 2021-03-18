@@ -19,21 +19,6 @@ namespace backend_herhaling_sneakers.Migrations
                 .HasAnnotation("ProductVersion", "5.0.4")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("OccasionSneaker", b =>
-                {
-                    b.Property<Guid>("OccasionsOccasionId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("SneakersSneakerId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("OccasionsOccasionId", "SneakersSneakerId");
-
-                    b.HasIndex("SneakersSneakerId");
-
-                    b.ToTable("OccasionSneaker");
-                });
-
             modelBuilder.Entity("backend_herhaling_sneakers.Models.Brand", b =>
                 {
                     b.Property<Guid>("BrandId")
@@ -51,22 +36,22 @@ namespace backend_herhaling_sneakers.Migrations
                     b.HasData(
                         new
                         {
-                            BrandId = new Guid("f13ad2f3-563c-4318-974e-3385ba50fda1"),
+                            BrandId = new Guid("4f3439de-8ec0-4486-8204-0b621a09642c"),
                             Name = "ASICS"
                         },
                         new
                         {
-                            BrandId = new Guid("e0c717f2-847b-4f6b-9525-d636a7598a8b"),
+                            BrandId = new Guid("79cf5795-56ed-44c6-8eec-7f792cc79813"),
                             Name = "CONVERSE"
                         },
                         new
                         {
-                            BrandId = new Guid("91da7bd3-d4e7-404e-b7b8-50a3f1e189c5"),
+                            BrandId = new Guid("c9aa7ea5-5c10-4a01-aebd-4b796bf1e9b3"),
                             Name = "VANS"
                         },
                         new
                         {
-                            BrandId = new Guid("2bc8aa37-fadc-4705-b1c8-f92cac8e0e3b"),
+                            BrandId = new Guid("69ad5fa2-fa4a-4985-95c0-9b29be6cc0b7"),
                             Name = "NIKE"
                         });
                 });
@@ -85,6 +70,8 @@ namespace backend_herhaling_sneakers.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("ImageId");
+
+                    b.HasIndex("SneakerId");
 
                     b.ToTable("Images");
                 });
@@ -106,22 +93,22 @@ namespace backend_herhaling_sneakers.Migrations
                     b.HasData(
                         new
                         {
-                            OccasionId = new Guid("2d7a920f-0abd-4045-8d88-458c5502a7d5"),
+                            OccasionId = new Guid("66140e8a-fa09-443b-bfd7-8546f5f095d0"),
                             Name = "Sports"
                         },
                         new
                         {
-                            OccasionId = new Guid("9a2086cb-91a4-4c83-b709-50d4b097298e"),
+                            OccasionId = new Guid("b60ddfce-fd93-4717-8180-1253360da255"),
                             Name = "Casual"
                         },
                         new
                         {
-                            OccasionId = new Guid("878b4642-c653-4509-b914-4ba1d55e0fdb"),
+                            OccasionId = new Guid("3249dad1-c967-443a-b5ae-a66b7b1b18cd"),
                             Name = "Skate"
                         },
                         new
                         {
-                            OccasionId = new Guid("2cc9fc43-4833-4d2d-840b-da889fdf67ae"),
+                            OccasionId = new Guid("fdd022c7-d484-433d-a2b8-5518d5a37858"),
                             Name = "Diner"
                         });
                 });
@@ -147,19 +134,55 @@ namespace backend_herhaling_sneakers.Migrations
                     b.ToTable("Sneakers");
                 });
 
-            modelBuilder.Entity("OccasionSneaker", b =>
+            modelBuilder.Entity("backend_herhaling_sneakers.Models.SneakerOccasion", b =>
+                {
+                    b.Property<Guid>("SneakerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("OccasionId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("SneakerId", "OccasionId");
+
+                    b.HasIndex("OccasionId");
+
+                    b.ToTable("SneakerOccasions");
+                });
+
+            modelBuilder.Entity("backend_herhaling_sneakers.Models.Image", b =>
+                {
+                    b.HasOne("backend_herhaling_sneakers.Models.Sneaker", null)
+                        .WithMany("Images")
+                        .HasForeignKey("SneakerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("backend_herhaling_sneakers.Models.SneakerOccasion", b =>
                 {
                     b.HasOne("backend_herhaling_sneakers.Models.Occasion", null)
-                        .WithMany()
-                        .HasForeignKey("OccasionsOccasionId")
+                        .WithMany("SneakerOccasions")
+                        .HasForeignKey("OccasionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("backend_herhaling_sneakers.Models.Sneaker", null)
-                        .WithMany()
-                        .HasForeignKey("SneakersSneakerId")
+                        .WithMany("SneakerOccasions")
+                        .HasForeignKey("SneakerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("backend_herhaling_sneakers.Models.Occasion", b =>
+                {
+                    b.Navigation("SneakerOccasions");
+                });
+
+            modelBuilder.Entity("backend_herhaling_sneakers.Models.Sneaker", b =>
+                {
+                    b.Navigation("Images");
+
+                    b.Navigation("SneakerOccasions");
                 });
 #pragma warning restore 612, 618
         }
